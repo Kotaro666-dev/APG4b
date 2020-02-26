@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# customize
+.vscode
+tempCodeRunnerFile.cpp
