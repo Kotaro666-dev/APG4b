@@ -1,38 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex16.cpp                                           :+:      :+:    :+:   */
+/*   practice02.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kotaro666 <kotaro0726@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/27 11:25:02 by kotaro666         #+#    #+#             */
-/*   Updated: 2020/02/27 11:25:02 by kotaro666        ###   ########.fr       */
+/*   Created: 2020/02/27 11:35:22 by kotaro666         #+#    #+#             */
+/*   Updated: 2020/02/27 11:35:22 by kotaro666        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /*
-5つの要素からなる配列が与えられます。 
-同じ値の要素が隣り合っているような箇所が存在するかどうかを判定してください。
-存在するなら"YES"を、存在しなければ"NO"を出力してください。
+例題「3要素の2つの配列A, Bに同じ要素が含まれているかどうか判定する」
  */
-
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 int main() {
-  vector<int> data(5);
-  for (int i = 0; i < 5; i++) {
-    cin >> data.at(i);
+  vector<int> A(3), B(3);
+  for (int i = 0; i < 3; i++) {
+    cin >> A.at(i);
+  }
+  for (int i = 0; i < 3; i++) {
+    cin >> B.at(i);
   }
 
-    for (int i = 0; i < data.size() - 1; i++)
+  bool ans = false;
+
+    for (int i = 0; i < A.size(); i++)
     {
-        if (data.at(i) == data.at(i + 1))
+        for(int j = 0; j < B.size(); j++)
         {
-            cout << "YES" << endl;
-            return 0;
+            if (A.at(i) == B.at(j))
+                ans = true;
         }
     }
-    cout << "NO" << endl;
+
+    if (ans == true)
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
 }
+
