@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex20.cpp                                           :+:      :+:    :+:   */
+/*   practice05.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kotaro666 <kotaro0726@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 12:09:28 by kotaro666         #+#    #+#             */
-/*   Updated: 2020/02/28 12:09:28 by kotaro666        ###   ########.fr       */
+/*   Created: 2020/02/27 21:18:15 by kotaro666         #+#    #+#             */
+/*   Updated: 2020/02/27 21:18:15 by kotaro666        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <bits/stdc++.h>
 using namespace std;
 
-// x番の組織が親組織に提出する枚数を返す
+// x番の組織について、子組織からの報告書が揃った時刻を返す
 // childrenは組織の関係を表す2次元配列(参照渡し)
-int count_report_num(vector<vector<int>> &children, int x)
+int complete_time(vector<vector<int>> &children, int x)
 {
     // ベースケース
     if (children.at(x).size() == 0)
     {
-        // 子組織から受け取ることは無いので1枚であることが確定している
-        return 1;
+        // 子組織が無いような組織について、報告書が揃う時刻は0
+        return 0;
     }
 
+    int max_receive_time = 0;
+
     // 再帰ステップ
-    int sum_paper = 0;
     for (int c : children.at(x))
     {
-        sum_paper += count_report_num(children, c);
+        // (子組織 c のもとに揃った時刻 + 1) の時刻に c からの報告書を受け取る 
+        int receive_time = complete_time(children, c) + 1;
+
+        max_receive_time = max(max_receive_time, receive_time);
     }
-    // x番の組織の報告書の枚数(1枚)を足す
-    sum_paper += 1;
-    return sum_paper;
+    return max_receive_time;
 }
 
 // これ以降の行は変更しなくてよい
@@ -48,14 +50,12 @@ int main() {
   }
 
   // 組織の関係から2次元配列を作る
-  vector<vector<int>> children(N);  // ある組織の子組織の番号一覧
+  vector<vector<int>> children(N);  // ある組織の子組織の番号一覧  // N×0の二次元配列
   for (int i = 1; i < N; i++) {
     int parent = p.at(i);  // i番の親組織の番号
     children.at(parent).push_back(i);  // parentの子組織一覧にi番を追加
   }
 
-  // 各組織について、答えを出力
-  for (int i = 0; i < N; i++) {
-    cout << count_report_num(children, i) << endl;
-  }
+  // 0番の組織の元に報告書が揃う時刻を求める
+  cout << complete_time(children, 0) << endl;
 }
